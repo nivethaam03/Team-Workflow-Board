@@ -1,73 +1,83 @@
-# React + TypeScript + Vite
+# Team Workflow Board
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A premium, responsive React application for managing team tasks with a custom-built design system.
 
-Currently, two official plugins are available:
+## 🚀 Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **React 19 & TypeScript**: Core framework and type safety.
+- **Tailwind CSS v4**: Advanced styling with a CSS-first approach.
+- **Context + useReducer**: Centralized state management using native React hooks.
+- **Framer Motion**: Smooth animations and transitions.
+- **Hello-Pangea/DnD**: Accessible drag-and-drop functionality.
+- **React Hook Form & Zod**: Robust form handling and validation.
+- **Lucide React**: Beautiful, consistent iconography.
 
-## React Compiler
+## 📂 Project Structure
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```text
+src/
+├── components/
+│   ├── ui/             # Reusable Design System (Atomic Components)
+│   │   ├── Badge       - Status and tag indicators
+│   │   ├── Button      - Variants: primary, secondary, ghost, destructive
+│   │   ├── Card        - Container for task content
+│   │   ├── Modal       - Animated dialogs with focus management
+│   │   ├── Toast       - Ephemeral notifications
+│   │   └── Inputs      - Textbox, Textarea, and Select components
+│   └── board/          # Feature-specific components
+│       ├── TaskBoard   - Drag-and-drop board layout
+│       ├── TaskCard    - Individual task visualization
+│       ├── TaskForm    - Create/Edit logic and validation
+│       └── BoardFilters- Search, sort, and visibility toggles
+├── context/
+│   └── AppContext.tsx  - Centralized state management using Reducer
+├── hooks/
+│   └── useSyncUrlParams- Synchronizes app state with URL query strings
+├── lib/
+│   ├── storage.ts      - LocalStorage wrapper with schema migration
+│   └── utils.ts        - Utility for merging Tailwind classes (cn)
+└── types/
+    └── index.ts        - Centralized TypeScript definitions
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## ✨ Key Features
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### 1. Advanced Board Management
+- **Drag-and-Drop**: Smoothly move tasks between "Backlog", "In Progress", and "Done" columns.
+- **Dynamic Counters**: Real-time task counts per column and total progress stats.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 2. Powerful Filtering & Sorting
+- **URL Synchronization**: Filters and sort orders are reflected in the URL, making the view shareable and persistent across refreshes.
+- **Multi-select Status**: Hide or show entire columns.
+- **Contextual Search**: High-performance text search across titles and descriptions.
+
+### 3. Task Lifecycle
+- **CRUD**: Full Create, Read, Update, and Delete capabilities.
+- **Validation**: Strict client-side validation using Zod schemas.
+- **Dirty State Protection**: Warns users if they try to close the modal with unsaved changes.
+
+### 4. Data Persistence & Migration
+- **LocalStorage**: Tasks are saved locally in the browser.
+- **Versioned Schema**: Includes a migration engine that detects older data structures and upgrades them automatically without data loss.
+
+### 5. Premium UI/UX
+- **Responsive Design**: Fluid transitions from desktop grid to mobile-optimized stacks.
+- **Accessibility**: ARIA labels, keyboard navigation (Esc to close modals), and semantic HTML.
+- **White Theme**: A clean, "Product-based" aesthetic with soft shadows and refined typography.
+
+## 🛠️ Getting Started
+
+1. **Install Dependencies**:
+   ```bash
+   npm install
+   ```
+
+2. **Run Development Server**:
+   ```bash
+   npm run dev
+   ```
+
+3. **Build for Production**:
+   ```bash
+   npm run build
+   ```
