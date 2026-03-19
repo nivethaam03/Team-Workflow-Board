@@ -55,26 +55,26 @@ export const TaskBoard = ({ onEditTask, onAddTask }: TaskBoardProps) => {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <div className="flex flex-col md:flex-row gap-4 items-start overflow-x-auto pb-4 scrollbar-hide">
+      <div className="flex flex-col md:flex-row gap-6 items-start overflow-x-auto pb-6 scrollbar-hide">
         {COLUMNS.map((column) => (
-          <div key={column} className="flex-1 min-w-[280px] w-full flex flex-col gap-3">
-            <div className="flex items-center justify-between px-1">
-              <div className="flex items-center gap-2">
-                <div className={cn("h-2 w-2 rounded-full shadow-lg", statusColors[column])} />
-                <h3 className="font-bold text-[11px] text-foreground uppercase tracking-wider">
+          <div key={column} className="flex-1 min-w-[340px] w-full flex flex-col gap-4">
+            <div className="flex items-center justify-between px-2">
+              <div className="flex items-center gap-3">
+                <div className={cn("h-3 w-3 rounded-full shadow-lg", statusColors[column])} />
+                <h3 className="font-bold text-sm text-foreground uppercase tracking-widest">
                   {column}
                 </h3>
-                <span className="bg-muted border border-border px-1.5 py-0.5 rounded-md text-[9px] font-black text-muted-foreground shadow-sm">
+                <span className="bg-muted border border-border px-3 py-0.5 rounded-lg text-xs font-black text-muted-foreground shadow-sm">
                   {filteredAndSortedTasks.filter((t) => t.status === column).length}
                 </span>
               </div>
               <Button
                 variant="ghost"
                 size="icon"
-                className="h-6 w-6 text-muted-foreground hover:bg-muted hover:text-primary rounded-md transition-all shadow-sm"
+                className="h-9 w-9 text-muted-foreground hover:bg-muted hover:text-primary rounded-xl transition-all shadow-sm"
                 onClick={() => onAddTask(column)}
               >
-                <Plus className="h-3 w-3 stroke-[3]" />
+                <Plus className="h-4 w-4 stroke-[3]" />
               </Button>
             </div>
 
@@ -115,12 +115,12 @@ export const TaskBoard = ({ onEditTask, onAddTask }: TaskBoardProps) => {
                     {provided.placeholder}
                     
                     {filteredAndSortedTasks.filter((t) => t.status === column).length === 0 && !snapshot.isDraggingOver && (
-                      <div className="flex flex-col items-center justify-center py-10 border-2 border-dashed border-border rounded-xl bg-muted/10">
-                        <div className="h-8 w-8 rounded-full bg-background flex items-center justify-center shadow-sm mb-2">
-                          <Circle className="h-4 w-4 text-muted-foreground/20" />
+                      <div className="flex flex-col items-center justify-center py-16 border-2 border-dashed border-border rounded-2xl bg-muted/20">
+                        <div className="h-10 w-10 rounded-full bg-background flex items-center justify-center shadow-sm mb-3">
+                          <Circle className="h-5 w-5 text-muted-foreground/30" />
                         </div>
-                        <p className="text-[9px] font-bold text-muted-foreground/40 uppercase tracking-widest">
-                          Empty
+                        <p className="text-[11px] font-bold text-muted-foreground/50 uppercase tracking-widest">
+                          Empty Column
                         </p>
                       </div>
                     )}
@@ -134,4 +134,3 @@ export const TaskBoard = ({ onEditTask, onAddTask }: TaskBoardProps) => {
     </DragDropContext>
   );
 };
-
