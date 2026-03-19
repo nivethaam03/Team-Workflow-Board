@@ -35,7 +35,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
                 <LayoutGrid className="h-6 w-6 text-primary-foreground" />
               </div>
               <h2 className="text-xl font-bold tracking-tight text-foreground">
-                Zencoder Team
+               Team Workflow Board
               </h2>
             </div>
             
@@ -155,7 +155,7 @@ export const LoginPage = ({ onLogin }: LoginPageProps) => {
         <div 
           className="absolute inset-0 bg-cover bg-center"
           style={{ 
-            backgroundImage: "url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop')"
+            backgroundImage: "url('/login_bg.jpg')"
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-tr from-primary/30 via-background/10 to-transparent mix-blend-multiply" />
