@@ -1,5 +1,5 @@
 import * as React from "react";
-import type { Task, Status, Priority, Filters, SortOptions, SortField, SortOrder } from "../types";
+import type { Task, Filters, SortOptions} from "../types";
 import { loadFromStorage, saveToStorage } from "../lib/storage";
 import { v4 as uuidv4 } from "uuid";
 

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Plus, CheckCircle2, AlertCircle, RefreshCw, LayoutGrid, LogOut } from "lucide-react";
+import { Plus, CheckCircle2, RefreshCw, LayoutGrid, LogOut } from "lucide-react";
 import { useApp } from "./context/AppContext";
 import { useSyncUrlParams } from "./hooks/useSyncUrlParams";
 import { TaskBoard } from "./components/board/TaskBoard";
