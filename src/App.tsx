@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Plus, CheckCircle2, AlertCircle, RefreshCw, LayoutGrid } from "lucide-react";
+import { Plus, CheckCircle2, AlertCircle, RefreshCw, LayoutGrid, LogOut } from "lucide-react";
 import { useApp } from "./context/AppContext";
 import { useSyncUrlParams } from "./hooks/useSyncUrlParams";
 import { TaskBoard } from "./components/board/TaskBoard";
@@ -8,6 +8,7 @@ import { TaskForm } from "./components/board/TaskForm";
 import { Modal } from "./components/ui/Modal";
 import { Button } from "./components/ui/Button";
 import { ToastContainer } from "./components/ui/Toast";
+import { LoginPage } from "./components/auth/LoginPage";
 import type { Status, Task } from "./types";
 
 function App() {
@@ -22,6 +23,10 @@ function App() {
     removeToast
   } = useApp();
   
+  const [isAuthenticated, setIsAuthenticated] = React.useState(() => {
+    return localStorage.getItem("is_auth") === "true";
+  });
+  
   // Sync filters and sort with URL
   useSyncUrlParams();
 
@@ -32,11 +37,25 @@ function App() {
 
   // Show migration toast if needed
   React.useEffect(() => {
-    if (migrationPerformed) {
+    if (isAuthenticated && migrationPerformed) {
       addToast("Data migrated to the latest version successfully!", "info");
       resetMigration();
     }
-  }, [migrationPerformed, addToast, resetMigration]);
+  }, [isAuthenticated, migrationPerformed, addToast, resetMigration]);
+
+  const handleLogin = (email: string) => {
+    setIsAuthenticated(true);
+    localStorage.setItem("is_auth", "true");
+    localStorage.setItem("user_email", email);
+    addToast(`Welcome back, ${email.split('@')[0]}!`, "success");
+  };
+
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    localStorage.removeItem("is_auth");
+    localStorage.removeItem("user_email");
+    addToast("Logged out successfully", "info");
+  };
 
   const handleOpenCreateModal = (status: Status = "Backlog") => {
     setEditingTask(undefined);
@@ -74,65 +93,81 @@ function App() {
     setIsFormDirty(false);
   };
 
+  if (!isAuthenticated) {
+    return (
+      <>
+        <ToastContainer toasts={toasts} removeToast={removeToast} />
+        <LoginPage onLogin={handleLogin} />
+      </>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-background pb-20">
+    <div className="min-h-screen bg-background pb-12 text-sm">
       <ToastContainer toasts={toasts} removeToast={removeToast} />
       
       {/* Header */}
       <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border shadow-sm">
-        <div className="max-w-[1400px] mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-primary p-2 rounded-xl shadow-lg shadow-primary/20">
-              <LayoutGrid className="h-6 w-6 text-primary-foreground" />
+        <div className="max-w-[1400px] mx-auto px-4 h-12 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="bg-primary p-1 rounded-md shadow-lg shadow-primary/20">
+              <LayoutGrid className="h-4 w-4 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold tracking-tight text-foreground leading-none mb-1">
-                Team Workflow Board
+              <h1 className="text-sm font-bold tracking-tight text-foreground leading-none">
+                Team Workflow
               </h1>
-              <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">
-                Manage your tasks efficiently
-              </p>
             </div>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="hidden md:flex flex-col items-end mr-2">
-              <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Total Tasks</span>
-              <span className="text-lg font-black text-primary leading-none">{tasks.length}</span>
+          <div className="flex items-center gap-3">
+            <div className="hidden sm:flex items-center gap-2 mr-2">
+              <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Tasks</span>
+              <span className="text-sm font-black text-primary leading-none">{tasks.length}</span>
             </div>
             <Button 
               onClick={() => handleOpenCreateModal()} 
-              className="h-11 px-6 rounded-xl font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+              className="h-8 px-3 rounded-md font-bold text-[10px] shadow-md shadow-primary/10 hover:scale-[1.02] active:scale-[0.98] transition-all"
             >
-              <Plus className="h-5 w-5 mr-2 stroke-[3]" />
-              Create Task
+              <Plus className="h-3 w-3 mr-1 stroke-[3]" />
+              New Task
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleLogout}
+              className="h-8 w-8 rounded-md text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+              title="Logout"
+            >
+              <LogOut className="h-3.5 w-3.5" />
             </Button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-[1400px] mx-auto px-6 pt-10 space-y-10">
+
+      <main className="max-w-[1400px] mx-auto px-4 pt-6 space-y-6">
         {/* Filters Section */}
-        <section className="animate-in fade-in slide-in-from-top-4 duration-700">
+        <section className="animate-in fade-in slide-in-from-top-2 duration-500">
           <BoardFilters />
         </section>
 
         {/* Board Section */}
-        <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150">
+        <section className="animate-in fade-in slide-in-from-bottom-2 duration-500 delay-150">
           {tasks.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-32 bg-card rounded-3xl border-2 border-dashed border-border shadow-sm">
-              <div className="bg-primary/10 p-6 rounded-full mb-6">
-                <LayoutGrid className="h-12 w-12 text-primary opacity-40" />
+            <div className="flex flex-col items-center justify-center py-16 bg-card rounded-xl border border-dashed border-border shadow-sm">
+              <div className="bg-primary/5 p-4 rounded-full mb-3">
+                <LayoutGrid className="h-8 w-8 text-primary opacity-30" />
               </div>
-              <h2 className="text-2xl font-bold text-foreground mb-2">Ready to start?</h2>
-              <p className="text-muted-foreground max-w-xs text-center mb-8">
-                Your board is currently empty. Create your first task to start tracking your progress.
+              <h2 className="text-lg font-bold text-foreground mb-1">Ready to start?</h2>
+              <p className="text-muted-foreground text-[10px] max-w-xs text-center mb-6">
+                Your board is currently empty.
               </p>
               <Button 
                 onClick={() => handleOpenCreateModal()}
                 variant="outline"
-                className="h-12 px-8 border-border hover:border-primary hover:bg-primary/10 transition-all font-bold"
+                className="h-8 px-6 border-border hover:border-primary hover:bg-primary/5 transition-all font-bold text-[10px]"
               >
-                Create My First Task
+                Create Task
               </Button>
             </div>
           ) : (
@@ -145,25 +180,18 @@ function App() {
       </main>
 
       {/* Footer / Stats */}
-      <footer className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-card/90 backdrop-blur-md border border-border rounded-2xl px-6 py-3 shadow-2xl flex items-center gap-8 z-50">
-        <div className="flex items-center gap-2">
-          <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-          <span className="text-xs font-bold text-muted-foreground uppercase tracking-tight">
+      <footer className="fixed bottom-4 left-1/2 -translate-x-1/2 bg-card/90 backdrop-blur-md border border-border rounded-lg px-4 py-1.5 shadow-xl flex items-center gap-4 z-50">
+        <div className="flex items-center gap-1.5">
+          <CheckCircle2 className="h-3.5 w-3.5 text-emerald-500" />
+          <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">
             Done: {tasks.filter(t => t.status === "Done").length}
           </span>
         </div>
-        <div className="w-px h-4 bg-border" />
-        <div className="flex items-center gap-2">
-          <RefreshCw className="h-4 w-4 text-blue-500" />
-          <span className="text-xs font-bold text-muted-foreground uppercase tracking-tight">
-            In Progress: {tasks.filter(t => t.status === "In Progress").length}
-          </span>
-        </div>
-        <div className="w-px h-4 bg-border" />
-        <div className="flex items-center gap-2">
-          <AlertCircle className="h-4 w-4 text-amber-500" />
-          <span className="text-xs font-bold text-muted-foreground uppercase tracking-tight">
-            Backlog: {tasks.filter(t => t.status === "Backlog").length}
+        <div className="w-px h-3 bg-border" />
+        <div className="flex items-center gap-1.5">
+          <RefreshCw className="h-3.5 w-3.5 text-blue-500" />
+          <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-tight">
+            Active: {tasks.filter(t => t.status === "In Progress").length}
           </span>
         </div>
       </footer>
