@@ -20,14 +20,14 @@ export const BoardFilters = () => {
   };
 
   return (
-    <div className="bg-white rounded-xl border border-gray-100 p-6 space-y-6 shadow-sm">
+    <div className="bg-card rounded-xl border border-border p-6 space-y-6 shadow-sm">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
         {/* Search */}
         <div className="md:col-span-4 relative group">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
           <Input
             placeholder="Search tasks..."
-            className="pl-9 h-11 border-gray-200 focus:border-primary"
+            className="pl-9 h-11 border-border focus:border-primary bg-background"
             value={filters.search}
             onChange={(e) => setFilters({ search: e.target.value })}
           />
@@ -39,7 +39,7 @@ export const BoardFilters = () => {
             Priority Filter
           </label>
           <Select
-            className="h-11 border-gray-200"
+            className="h-11 border-border bg-background"
             value={filters.priority}
             onChange={(e) => setFilters({ priority: e.target.value as Priority | "All" })}
             options={ALL_PRIORITIES.map((p) => ({ label: p, value: p }))}
@@ -53,7 +53,7 @@ export const BoardFilters = () => {
               Sort By
             </label>
             <Select
-              className="h-11 border-gray-200"
+              className="h-11 border-border bg-background"
               value={sort.field}
               onChange={(e) => setSort({ field: e.target.value as SortField })}
               options={[
@@ -67,7 +67,7 @@ export const BoardFilters = () => {
             <Button
               variant="outline"
               size="icon"
-              className="h-11 w-11 border-gray-200"
+              className="h-11 w-11 border-border bg-background"
               onClick={() => setSort({ order: sort.order === "asc" ? "desc" : "asc" })}
             >
               {sort.order === "asc" ? <SortAsc className="h-4 w-4" /> : <SortDesc className="h-4 w-4" />}
@@ -77,10 +77,10 @@ export const BoardFilters = () => {
       </div>
 
       {/* Status Multi-select */}
-      <div className="pt-4 border-t flex flex-wrap items-center gap-3">
+      <div className="pt-4 border-t border-border flex flex-wrap items-center gap-3">
         <div className="flex items-center gap-2 mr-4">
           <ListFilter className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm font-semibold text-gray-600">Columns:</span>
+          <span className="text-sm font-semibold text-muted-foreground">Columns:</span>
         </div>
         <div className="flex flex-wrap gap-2">
           {ALL_STATUSES.map((status) => {
@@ -93,7 +93,7 @@ export const BoardFilters = () => {
                   "px-4 py-1.5 rounded-full text-xs font-bold transition-all border",
                   isActive
                     ? "bg-primary text-primary-foreground border-primary shadow-sm"
-                    : "bg-gray-50 text-gray-400 border-gray-200 hover:border-gray-300"
+                    : "bg-muted text-muted-foreground border-border hover:border-primary/50"
                 )}
               >
                 {status}

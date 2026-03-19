@@ -70,35 +70,35 @@ export const TaskForm = ({ initialData, defaultStatus, onSubmit, onCancel, isDir
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-8 animate-in fade-in duration-500">
-      <div className="space-y-6">
-        <div className="space-y-2">
-          <label className="text-sm font-bold flex items-center gap-2 text-gray-700">
-            <LayoutPanelLeft className="h-4 w-4 text-primary" /> Title
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 animate-in fade-in duration-300">
+      <div className="space-y-4">
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-bold flex items-center gap-2 text-foreground uppercase tracking-widest">
+            <LayoutPanelLeft className="h-3.5 w-3.5 text-primary" /> Title
           </label>
           <Input
             {...register("title")}
             placeholder="e.g. Redesign Landing Page"
             error={errors.title?.message}
-            className="h-12 text-lg font-medium"
+            className="h-9 text-sm font-medium bg-background"
           />
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-bold flex items-center gap-2 text-gray-700">
-            <FileText className="h-4 w-4 text-primary" /> Description
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-bold flex items-center gap-2 text-foreground uppercase tracking-widest">
+            <FileText className="h-3.5 w-3.5 text-primary" /> Description
           </label>
           <Textarea
             {...register("description")}
-            placeholder="Provide a detailed description of the task..."
+            placeholder="Provide a detailed description..."
             error={errors.description?.message}
-            className="min-h-[160px] text-base leading-relaxed"
+            className="min-h-[100px] text-xs leading-relaxed bg-background"
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-gray-700">Status</label>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-bold text-foreground uppercase tracking-widest">Status</label>
             <Select
               {...register("status")}
               options={[
@@ -106,11 +106,11 @@ export const TaskForm = ({ initialData, defaultStatus, onSubmit, onCancel, isDir
                 { label: "In Progress", value: "In Progress" },
                 { label: "Done", value: "Done" },
               ]}
-              className="h-11"
+              className="h-8 bg-background"
             />
           </div>
-          <div className="space-y-2">
-            <label className="text-sm font-bold text-gray-700">Priority</label>
+          <div className="space-y-1.5">
+            <label className="text-[10px] font-bold text-foreground uppercase tracking-widest">Priority</label>
             <Select
               {...register("priority")}
               options={[
@@ -118,26 +118,26 @@ export const TaskForm = ({ initialData, defaultStatus, onSubmit, onCancel, isDir
                 { label: "Medium", value: "Medium" },
                 { label: "High", value: "High" },
               ]}
-              className="h-11"
+              className="h-8 bg-background"
             />
           </div>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-sm font-bold flex items-center gap-2 text-gray-700">
-            <User className="h-4 w-4 text-primary" /> Assignee
+        <div className="space-y-1.5">
+          <label className="text-[10px] font-bold flex items-center gap-2 text-foreground uppercase tracking-widest">
+            <User className="h-3.5 w-3.5 text-primary" /> Assignee
           </label>
           <Input
             {...register("assignee")}
             placeholder="Assign to..."
             error={errors.assignee?.message}
-            className="h-11"
+            className="h-8 bg-background"
           />
         </div>
 
-        <div className="space-y-3">
-          <label className="text-sm font-bold flex items-center gap-2 text-gray-700">
-            <TagIcon className="h-4 w-4 text-primary" /> Tags
+        <div className="space-y-2">
+          <label className="text-[10px] font-bold flex items-center gap-2 text-foreground uppercase tracking-widest">
+            <TagIcon className="h-3.5 w-3.5 text-primary" /> Tags
           </label>
           <div className="flex gap-2">
             <Input
@@ -149,23 +149,23 @@ export const TaskForm = ({ initialData, defaultStatus, onSubmit, onCancel, isDir
                   addTag();
                 }
               }}
-              placeholder="Add a tag..."
-              className="h-11"
+              placeholder="Add tag..."
+              className="h-8 bg-background"
             />
-            <Button type="button" variant="outline" onClick={addTag} className="h-11 px-4">
-              <Plus className="h-4 w-4 mr-2" /> Add
+            <Button type="button" variant="outline" onClick={addTag} className="h-8 px-3 text-[10px]">
+              <Plus className="h-3 w-3 mr-1" /> Add
             </Button>
           </div>
-          <div className="flex flex-wrap gap-2 pt-1">
+          <div className="flex flex-wrap gap-1.5 pt-1">
             {tags.map((tag) => (
-              <Badge key={tag} variant="secondary" className="pl-3 pr-1 py-1 gap-1 border-blue-100 bg-blue-50 text-blue-700 font-bold">
+              <Badge key={tag} variant="secondary" className="pl-2 pr-1 py-0.5 gap-1 border-primary/20 bg-primary/10 text-primary font-bold text-[9px]">
                 {tag}
                 <button
                   type="button"
                   onClick={() => removeTag(tag)}
-                  className="p-0.5 hover:bg-blue-200 rounded-full transition-colors"
+                  className="p-0.5 hover:bg-primary/20 rounded-full transition-colors"
                 >
-                  <X className="h-3 w-3" />
+                  <X className="h-2.5 w-2.5" />
                 </button>
               </Badge>
             ))}
@@ -173,12 +173,12 @@ export const TaskForm = ({ initialData, defaultStatus, onSubmit, onCancel, isDir
         </div>
       </div>
 
-      <div className="flex justify-end gap-3 pt-6 border-t mt-8">
-        <Button type="button" variant="ghost" onClick={onCancel} className="px-6 h-11 font-bold">
+      <div className="flex justify-end gap-2 pt-4 border-t border-border mt-6">
+        <Button type="button" variant="ghost" onClick={onCancel} className="px-4 h-8 font-bold text-[10px]">
           Cancel
         </Button>
-        <Button type="submit" className="px-10 h-11 font-bold shadow-lg shadow-primary/20">
-          {initialData ? "Update Task" : "Create Task"}
+        <Button type="submit" className="px-6 h-8 font-bold text-[10px] shadow-md shadow-primary/10">
+          {initialData ? "Update" : "Create"}
         </Button>
       </div>
     </form>

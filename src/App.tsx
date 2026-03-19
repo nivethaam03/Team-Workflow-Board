@@ -75,18 +75,18 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#fcfcfd] pb-20">
+    <div className="min-h-screen bg-background pb-20">
       <ToastContainer toasts={toasts} removeToast={removeToast} />
       
       {/* Header */}
-      <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
+      <header className="sticky top-0 z-40 bg-background/80 backdrop-blur-md border-b border-border shadow-sm">
         <div className="max-w-[1400px] mx-auto px-6 h-20 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <div className="bg-primary p-2 rounded-xl shadow-lg shadow-primary/20">
-              <LayoutGrid className="h-6 w-6 text-white" />
+              <LayoutGrid className="h-6 w-6 text-primary-foreground" />
             </div>
             <div>
-              <h1 className="text-xl font-bold tracking-tight text-gray-900 leading-none mb-1">
+              <h1 className="text-xl font-bold tracking-tight text-foreground leading-none mb-1">
                 Team Workflow Board
               </h1>
               <p className="text-[11px] font-bold text-muted-foreground uppercase tracking-widest">
@@ -96,7 +96,7 @@ function App() {
           </div>
           <div className="flex items-center gap-4">
             <div className="hidden md:flex flex-col items-end mr-2">
-              <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Total Tasks</span>
+              <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Total Tasks</span>
               <span className="text-lg font-black text-primary leading-none">{tasks.length}</span>
             </div>
             <Button 
@@ -119,18 +119,18 @@ function App() {
         {/* Board Section */}
         <section className="animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150">
           {tasks.length === 0 ? (
-            <div className="flex flex-col items-center justify-center py-32 bg-white rounded-3xl border-2 border-dashed border-gray-100 shadow-sm">
-              <div className="bg-blue-50 p-6 rounded-full mb-6">
+            <div className="flex flex-col items-center justify-center py-32 bg-card rounded-3xl border-2 border-dashed border-border shadow-sm">
+              <div className="bg-primary/10 p-6 rounded-full mb-6">
                 <LayoutGrid className="h-12 w-12 text-primary opacity-40" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-800 mb-2">Ready to start?</h2>
+              <h2 className="text-2xl font-bold text-foreground mb-2">Ready to start?</h2>
               <p className="text-muted-foreground max-w-xs text-center mb-8">
                 Your board is currently empty. Create your first task to start tracking your progress.
               </p>
               <Button 
                 onClick={() => handleOpenCreateModal()}
                 variant="outline"
-                className="h-12 px-8 border-gray-200 hover:border-primary hover:bg-blue-50 transition-all font-bold"
+                className="h-12 px-8 border-border hover:border-primary hover:bg-primary/10 transition-all font-bold"
               >
                 Create My First Task
               </Button>
@@ -145,24 +145,24 @@ function App() {
       </main>
 
       {/* Footer / Stats */}
-      <footer className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md border border-gray-200 rounded-2xl px-6 py-3 shadow-2xl flex items-center gap-8 z-50">
+      <footer className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-card/90 backdrop-blur-md border border-border rounded-2xl px-6 py-3 shadow-2xl flex items-center gap-8 z-50">
         <div className="flex items-center gap-2">
           <CheckCircle2 className="h-4 w-4 text-emerald-500" />
-          <span className="text-xs font-bold text-gray-600 uppercase tracking-tight">
+          <span className="text-xs font-bold text-muted-foreground uppercase tracking-tight">
             Done: {tasks.filter(t => t.status === "Done").length}
           </span>
         </div>
-        <div className="w-px h-4 bg-gray-200" />
+        <div className="w-px h-4 bg-border" />
         <div className="flex items-center gap-2">
           <RefreshCw className="h-4 w-4 text-blue-500" />
-          <span className="text-xs font-bold text-gray-600 uppercase tracking-tight">
+          <span className="text-xs font-bold text-muted-foreground uppercase tracking-tight">
             In Progress: {tasks.filter(t => t.status === "In Progress").length}
           </span>
         </div>
-        <div className="w-px h-4 bg-gray-200" />
+        <div className="w-px h-4 bg-border" />
         <div className="flex items-center gap-2">
           <AlertCircle className="h-4 w-4 text-amber-500" />
-          <span className="text-xs font-bold text-gray-600 uppercase tracking-tight">
+          <span className="text-xs font-bold text-muted-foreground uppercase tracking-tight">
             Backlog: {tasks.filter(t => t.status === "Backlog").length}
           </span>
         </div>
